@@ -6,16 +6,16 @@ Gem::Specification.new do |spec|
   spec.authors       = ["chibuisi"]
   spec.email         = ["enyia21@gmail.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because RubyGems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{This Ruby Gem scrapes the cbssports nfl teams page allowing users to interact with info}
+  spec.description   = %q{NflLookupTool - searches https://www.cbssports.com/nfl/teams/.  After scraping for NFL teams, Roster and Schedule.  The Application performs a second scrape on the roster link to return information on each player. and the position they play.}
+  spec.homepage      = "https://github.com/enyia21/nfl_lookup_tool"
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
 
   spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "TODO: Put your gem's public repo URL here."
+  spec.metadata["source_code_uri"] = "https://github.com/enyia21/nfl_lookup_tool"
   spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
 
   # Specify which files should be added to the gem when it is released.
