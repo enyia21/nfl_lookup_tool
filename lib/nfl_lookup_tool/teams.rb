@@ -1,4 +1,4 @@
-require "pry"
+
 class Team
 
     attr_accessor :name, :teams, :conference, :division, :league, :roster_link, :schedule_link
@@ -23,9 +23,6 @@ class Team
         @@all
     end
     
-    def save
-        self.class.all << self
-    end
 
     def players
         @players
@@ -87,7 +84,7 @@ class Team
 
     def self.print_division(conf, division)
         puts "  Division: #{division}"
-        Team.all.select{|conf_team|conf_team.conference == conf}.each do|divi_team| 
+        Team.all.select{|conf_team|conf_team.conference == conf}.each_with_index do|divi_team, index| 
             Team.print_team(divi_team) if divi_team.division == division
             end
     end
@@ -112,21 +109,21 @@ class Team
         self.season.each do|game|
             puts "  #{game.week}     #{game.date}      #{game.opponent}      #{game.time} "
         end
+        # binding.pry
     end
 
     # print_roster
     def print_roster
         count = 0
-        binding.pry
         while count < self.phases_of_game.length
             puts "#{self.phases_of_game[count]}"
             phase = self.players.select{|player|player.phase_of_game == self.phases_of_game[count]}
-            binding.pry
+
             phase.each_with_index do|phase_player, index|
                 puts "#{index+1}   #{phase_player.name}   #{phase_player.number}  #{phase_player.experience}   #{phase_player.position}"
             end 
             count += 1
-            # binding.pry
+
 
         end
     end
@@ -150,9 +147,8 @@ class Team
        
     def print_player(phase, number)
         selected_player = select_player_by_phase_and_index(phase, number)
-        puts "#{number}   #{selected_player.name}   #{selected_player.number}  #{selected_player.experience}   #{selected_player.position}"
+        puts "#{number}.   Name: #{selected_player.name}   Jersey Number: #{selected_player.number}  Experience: #{selected_player.experience}   Position: #{selected_player.position}"
     end
 end
 
-# test = Team.new("bils")
-# binding.pry
+

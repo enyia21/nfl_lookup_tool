@@ -11,13 +11,6 @@ class NflLookupTool::CLI
     def greeting
         puts "Welcome to the Nfl LookUp Tool!"  
         puts "You can search the nfl for players based on your favorite team."
-        
-        # Team.build_league
-        # Team.build_team_roster("Buffalo Bills")
-        # # Team.build_team_schedule("Chicago Bears")
-        # # Team.find_by_name("Chicago Bears").print_team_schedule
-        # Team.find_by_name("Buffalo Bills").print_roster_by_phase("Special Teams")
-        # Team.find_by_name("Buffalo Bills").print_player("Defense" , 2)
     end 
 
     
@@ -29,28 +22,15 @@ class NflLookupTool::CLI
         #             - exit program
         #     
     def choose_team
-        print "Please choose how you would like to search: "
+        print "Please type --- team ---  to search for a team or === exit === to exit. "
         input = gets.strip.downcase
         while (input != "exit_program")
             case input
-            # when "player"
-            #     puts "You've chosen to look over the player menu"
-            #     player_menu
-            #     puts "Would you like to continue using the app.  Yes or No (y/n): "
-            #     player_continue = gets.strip.downcase
-            #     if player_continue == "y"
-            #         input = "player"
-            #     elsif player_continue == "n"
-            #         input = "exit_program"
-            #     else 
-            #         puts "Please input proper value: You are being returned to the player menu"
-            #         input = "player"
-            #     end 
             when "team"
                 puts "You've chosen to look over the team menu"
                 team_menu
                 puts "Would you like to continue using the app.  Yes or No (y/n): "
-                team_continue = gets.strip.downcase
+                team_continue = gets.strip
                 if team_continue == "y"
                     input = "team"
                 elsif team_continue == "n"
@@ -73,40 +53,16 @@ class NflLookupTool::CLI
     def team_menu
         
             Team.build_league
-            # input = "Invalid"
-            # while input == "Invalid"
-            #     puts "Please choose a football team: "
-            #     input = gets.strip
-            #     if Team.find_by_name(input)
-            #         input
-            #     else
-            #         input = "Invalid"
-            #         puts "User input invalid"
-            #     end
-            # end
-
             team_search = "incomplete"
             while (team_search != 'complete')
-            puts "Would you like view teams listed by league, listed by conference or listed by division "
-            printby_league_conference_division = gets.strip
-                case printby_league_conference_division
+            puts "Would you like view teams listed by league or by conference"
+            printby_league_conference = gets.strip
+                case printby_league_conference
                 when "league"
-                    Team.print_league
-                    puts "Please choose a team:"
-                    team_input = gets.strip
-                    if Team.find_by_name(team_input)
-                        Team.print_team(team_input)
-                        puts "Would uou like to "
+                    league_prompt
                     team_search = 'complete'
                 when "conference"
-                    puts "List of conferences"
-                    puts "Choose your conference"
-                    puts "Choose your team"
-                    team_search = "complete"
-                when "division"
-                    puts "List of Division"
-                    puts "Choose your divsion"
-                    puts "Choose your team"
+                    conference_prompt
                     team_search = "complete"
                 when "exit"
                     puts "exits out of team menu"
@@ -117,29 +73,126 @@ class NflLookupTool::CLI
         end
     end
 
-    # def player_menu
-    #     player_search = "incomplete"
-    #     puts "Choose player by: "
-    #     while player_search != "complete"
-    #         puts "Would you like to search for a player league wide or by position?"
-    #         search_league_or_position = gets.strip.downcase
-    #         case search_league_or_position
-    #         when "league"
-    #             puts "Searches the player array and returns information on the player and team"
-    #             player_search = "complete"
-    #         when "position"
-    #             puts "Searches based on the position"
-    #             puts "List postions in football"
-    #             puts "Calls position class and prints out player by postion."
-    #             player_search = "complete"
-    #         else
-    #             puts "Please place a valid input:"
-    #         end
-    #     end
-    # end
-            # For player please type in player or 1 for team type team or 2 to exit type exit
-            # get input from user pass into input variable 
-            
+    def league_prompt
+        Team.print_league
+        user_question = "unanswered"
+        while user_question != "answered" 
+            puts "Please input a team name: "
+            team_name_input = gets.strip
+            failed_input_count = 0
+            if Team.find_by_name(team_name_input)
+                puts "Would you like to view roster, or team schedule?  Please type roster, schedule or exit"
+                input = gets.strip
+                team = Team.find_by_name(team_name_input)
+                if input == "schedule"
+                    Team.build_team_schedule(team_name_input)
+                    team.print_team_schedule
+                    user_question = "answered"
+                elsif input== "roster"
+                    Team.build_team_roster(team_name_input)
+                    team.print_roster
+                    puts "Would you like more information about a player on the team?"
+                    user_question = "answered"
+                elsif input == "exit"
+                    puts "You are now exiting the league search!"
+                    user_question = "answered"
+                else
+                    puts "Please make sure you type in the information correctly!"
+                    failed_input_count += 1
+                    if failed_input_count == 10
+                        puts "Too many failures.  Please try again at another time!"
+                        user_question = "answered"
+                    else
+                        user_question = "unanswered"
+                    end
+                end
+            else
+                puts "Please input a valid team"
+                failed_input_count += 1
+                if failed_input_count == 10
+                    puts "Too many failures.  Please try again at another time!"
+                    user_question = "answered"
+                else
+                    user_question = "unanswered"
+                end
+            end
+        end
+    end
+
+    def conference_prompt
+        
+        user_question = "unanswered"
+        puts "Please input which conference you would like to view: AFC, NFC, or exit"
+        user_input = gets.strip
+        count = 0 
+        unless user_question == "answered" || count > 10 
+            if user_input == "AFC"
+                Team.print_conference(user_input)
+
+                user_question = 'answered'
+            elsif user_input == "NFC"
+                Team.print_conference(user_input)
+
+                user_question = 'answered'
+            elsif user_input == "exit"
+                puts "You will be returned to the previous menu now!"
+                user_question = 'answered'
+            else
+                puts "Please place valid information or the program will exit!"
+                count = +1
+                if count > 10
+                    user_question = "answered"
+                    puts "TOO MANY ERRORS WERE MADE!"
+                end
+            end
+        end
+
+        while user_question != "answered" 
+            puts "Please input a team name: "
+            team_name_input = gets.strip
+            failed_input_count = 0
+            if Team.find_by_name(team_name_input)
+                puts "Would you like to view roster, or team schedule?  Please type roster, schedule or exit"
+                input = gets.strip
+                team = Team.find_by_name(team_name_input)
+                if input == "schedule"
+                    Team.build_team_schedule(team_name_input)
+                    team.print_team_schedule
+                    user_question = "answered"
+                elsif input== "roster"
+                    Team.build_team_roster(team_name_input)
+                    team.print_roster
+                    puts "Would you like more information about a player on the team?"
+                    user_question = "answered"
+                elsif input == "exit"
+                    puts "You are now exiting the league search!"
+                    user_question = "answered"
+                else
+                    puts "Please make sure you type in the information correctly!"
+                    failed_input_count += 1
+                    if failed_input_count == 10
+                        puts "Too many failures.  Please try again at another time!"
+                        user_question = "answered"
+                    else
+                        user_question = "unanswered"
+                    end
+                end
+            else
+                puts "Please input a valid team"
+                failed_input_count += 1
+                if failed_input_count == 10
+                    puts "Too many failures.  Please try again at another time!"
+                    user_question = "answered"
+                else
+                    user_question = "unanswered"
+                end
+            end
+        end
+    end
+    
+    #Present team prompt
+    
+
     def exit_program
         puts ""
         puts "***************************************************************************************************"

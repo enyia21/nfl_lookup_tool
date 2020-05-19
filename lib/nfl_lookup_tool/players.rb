@@ -17,13 +17,8 @@ class Player
         @@all
     end
 
-    def self.erase_all
-        self.all.clear
-    end
-    
     def position=(position)
         @position = position
-        # self.position.add_player(player)
     end
 
     def team=(team)
@@ -34,16 +29,5 @@ class Player
     def self.find_by_name(name)
         Player.all.find{|player| player if player.name == name}
     end
-
-    # def self.find_or_create_by_name(name)
-    #     if self.find_by_name(name)
-    #         self.find_by_name(name)
-    #     else
-    #         Player.create(name)
-    #     end
-    # end
-
-
-
     
 end 

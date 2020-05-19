@@ -1,10 +1,8 @@
 # NflLookupTool
 
-1. Find out how to access nfl network.
+* Find out how to access nfl network.
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/nfl_lookup_tool`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This is a simple ruby gem that allows users to look up a football team.  They can print out the roster as well as the schedule.   The website https://www.cbssports.com/nfl/teams/ is scrapped to grab NFL teams.   The roster and the schedule are passed into the methods that scrapes the roster and schedule for selected teams.  
 
 ## Installation
 
@@ -24,7 +22,49 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+NFL Lookup Tool
+
+## Getting Started:
+
+### Installing
+
+---
+bundle gem nfl_lookup_tool
+
+git remote add origin https://github.com/enyia21
+/nfl_lookup_tool.git
+
+git push -u origin master
+
+---
+
+## Objectives:
+* Build a CLI 
+* Create a method that engages in a two level scrape.  
+
+
+## Overview:
+
+This website is designed to allow users to search for there favorite footall team by viewing the entire league or each conference of football teams.  Scapper class works with the Team class to provide information for the Command Line Interface(CLI) to use.  
+
+User can select a team and then choose whether they would like to know the current roster of the football team or the schedule for the upcomming season.
+
+Utilize scrapping techniques to scrape the cbs sports nfl page to pull data about nfl teams and there repective schedules
+
+## Deployment
+ * Ruby - Web Framework
+
+
+We added these dependencies in order to deploy live: 
+  spec.add_development_dependency "bundler", "~> 2.0"
+  spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "pry"
+  spec.add_dependency "nokogiri"
+
+# Authors
+* Chibuisi Enyia
+
+
 
 ## Development
 
@@ -34,7 +74,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/nfl_lookup_tool. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/nfl_lookup_tool/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/[enyia21]/nfl_lookup_tool. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[enyia21]/nfl_lookup_tool/blob/master/CODE_OF_CONDUCT.md).
 
 
 ## License

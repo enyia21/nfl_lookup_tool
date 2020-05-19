@@ -1,6 +1,6 @@
-require 'nokogiri'
-require 'open-uri'
-require 'pry'
+# require 'nokogiri'
+# require 'open-uri'
+# require 'pry'
 class Scrapper
 
     attr_accessor :league, :conference, :division, :team, :player, :site
@@ -14,11 +14,7 @@ class Scrapper
     def build_league
 
         site = "https://www.cbssports.com/nfl/teams/"
-        doc = Nokogiri::HTML(open(site))
-        # league_page = doc.css("div.TeamIndexContainer .TableBaseWrapper")
-        # conferences_scraped = 0
-        # divisions_scraped = 0
-        # teams_scraped = 0  
+        doc = Nokogiri::HTML(open(site)) 
         conference_scrape = doc.css("div.TeamIndexContainer .TableBaseWrapper")
         conference_scrape.each do |conf|
             self.conference = conf.css("div.TeamLogoNameLockup span.TeamLogoNameLockup-name").text.strip
@@ -81,7 +77,6 @@ class Scrapper
                 player_name = each_player.css("td.TableBase-bodyTd .CellPlayerName--long a").text.strip
                 player_number = each_player.css("td.TableBase-bodyTd")[0].text.strip
                 player_position = each_player.css("td.TableBase-bodyTd")[2].text.strip
-                # binding.pry
                 added_player = Player.new(player_name, passed_team, player_position)
                 added_player.number = player_number
                 player_experience = each_player.css("td.TableBase-bodyTd")[6].text.strip
@@ -103,22 +98,7 @@ class Scrapper
             opponent = week.css("td.TableBase-bodyTd .TeamName").text.strip
             game_time = week.css("td.TableBase-bodyTd .CellGame").text.strip
             team_schedule = Schedule.new(game_week, game_date, game_time, opponent)
-            # binding.pry
             team_schedule.scheduled_game(passed_team)
         end
-    end
-
-
-    
-
-
-
-
-    
+    end 
 end
-
-# scrape_test = Scrapper.new()
-# scrape_test.build_league()
-
-# # scrape_test.scrape_roster("https://www.cbssports.com/nfl/teams/BUF/buffalo-bills/roster/")
-# scrape_test.scrape_schedule("https://www.cbssports.com/nfl/teams/BUF/buffalo-bills/schedule/")
