@@ -190,8 +190,8 @@ class NflLookupTool::CLI
         end
     end
     
-    #Present team prompt
-    
+    #Present team prompt okay
+
 
     def exit_program
         puts ""
