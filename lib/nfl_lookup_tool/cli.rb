@@ -264,6 +264,17 @@ class NflLookupTool::CLI
         end
     end
 
+
+    # def phase_exist(user_input, team)
+    #     team.phase_of_game.include?(user_input)
+    # end
+
+    # def player_present(phase, team, player_number)
+
+    #     if player_number > team.player.length || player_number >
+    # end
+
+
     
 
     
