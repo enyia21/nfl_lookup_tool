@@ -3,6 +3,7 @@
 require 'open-uri'
 require "pry"
 require "nokogiri"
+
 require_relative "./nfl_lookup_tool/version"
 require_relative "./nfl_lookup_tool/cli"
 require_relative "./nfl_lookup_tool/teams.rb"

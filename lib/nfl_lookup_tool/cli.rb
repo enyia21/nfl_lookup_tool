@@ -21,8 +21,9 @@ class NflLookupTool::CLI
         #             - send users to team_menu
         #             - exit program
         #     
-    def choose_team
-        print "Please type --- team ---  to search for a team or === exit === to exit. "
+        def choose_team
+            Team.build_league
+            print "Please type --- team ---  to search for a team or === exit === to exit. "
         input = gets.strip.downcase
         while (input != "exit_program")
             case input
@@ -52,7 +53,6 @@ class NflLookupTool::CLI
             
     def team_menu
         
-            Team.build_league
             team_search = "incomplete"
             while (team_search != 'complete')
             puts "Would you like view teams listed by league or by conference"
@@ -192,26 +192,42 @@ class NflLookupTool::CLI
     # end
 
     
-    
-    #Present team prompt 
-    #conference ask
-    #Pick Team
+    def conference_prompt
+        user_input = "invalid!"
+        while user_input == "invalid!"
+        puts "Please Choose One of the NFL conferences: AFC or NFC: "
+        input = gets.strip
+            if input == "AFC"
+                pick_your_team(input)
+                user_input = 'valid'
+            elsif input == 'NFC'
+                pick_your_team(input)
+                user_input = 'valid'
+            else
+                user_input = 'invalid!'
+            end
+        end 
 
+    end
     
     def pick_your_team(conf)
         case conf     
         when nil
         
         when "AFC"
+            Team.print_conference(conf)
             puts "Please pick your team from the conference list of teams available"
             input = gets.strip
-            user_team = CLI.valid_team(input)
-            CLI.roster_or_schedule(user_team)
+            binding.pry
+            
+            user_team = valid_team(input)
+            roster_or_schedule(user_team)
         when "NFC"
+            Team.print_conference(conf)
             puts "Please pick your team from the conference list of teams available"
             input = gets.strip
-            user_team = CLI.valid_team(input)
-            CLI.roster_or_schedule(user_team)
+            user_team = valid_team(input)
+            roster_or_schedule(user_team)
         else
             puts "Error: Your Logic has failed.  Conf should only have AFC or NFC passed into it"
         end
@@ -219,17 +235,20 @@ class NflLookupTool::CLI
     end
     #team find_by_name
 
-    def self.valid_team(team_name)
-        unless Team.find_by_name(team_name) 
-            puts "Please input a team:"
+    def valid_team(team_name)
+        team = Team.find_by_name(team_name)
+        while team == nil
+            puts "Please attempt to input a valid team:"
             team_name = gets.strip
+            team = Team.find_by_name(team_name)
+            binding.pry
         end
         Team.find_by_name(team_name)
     end
 
-    def self.roster_or_schedule(team)
+    def roster_or_schedule(team)
         user_input = 'none'
-        unless user_input == 'roster' || user_input == 'schedule'
+        while user_input != 'roster' && user_input != 'schedule'
             puts "Please type roster or schedule into the console!"
             user_input = gets.strip
         end
@@ -244,6 +263,8 @@ class NflLookupTool::CLI
             team.print_team_schedule
         end
     end
+
+    
 
     
 
