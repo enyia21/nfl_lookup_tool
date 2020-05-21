@@ -6,8 +6,6 @@ class Team
 
     @@all = []
 
-    # extend Concers::Findable
-
     def initialize(name)
 
         @name = name
